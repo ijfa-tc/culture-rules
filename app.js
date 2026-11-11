@@ -14,6 +14,9 @@
   var rawId = (params.get("id") || "").trim().toUpperCase();
   var studentId = ID_PATTERN.test(rawId) ? rawId : "";
   var themeKey = params.get("theme") || "";
+  // ?preview=1 … じゅんびちゅうのテーマを、公開の前に先生が確認するためのしるし
+  var preview = params.get("preview") === "1";
+  var LETTERS = "ABCDEF";
 
   var app = document.getElementById("app");
   var studentEl = document.getElementById("student");
@@ -46,6 +49,13 @@
     return '<button type="button" class="meaning-btn" data-meaning="' + key + '" aria-expanded="false">' +
       'いみを見る / Lihat arti</button>' +
       '<div class="meaning" id="meaning-' + key + '" lang="id">' + esc(text) + "</div>";
+  }
+  // すでにHTMLになっている中身を入れる版
+  function meaningBlockHtml(html, key) {
+    if (!html) return "";
+    return '<button type="button" class="meaning-btn" data-meaning="' + key + '" aria-expanded="false">' +
+      'いみを見る / Lihat arti</button>' +
+      '<div class="meaning" id="meaning-' + key + '" lang="id">' + html + "</div>";
   }
   function bindMeaning(onOpen) {
     var btns = app.querySelectorAll("[data-meaning]");
@@ -102,7 +112,7 @@
     var themes = CONFIG.THEMES || [];
     var entry = null;
     for (var i = 0; i < themes.length; i++) if (themes[i].key === key) entry = themes[i];
-    if (!entry || entry.soon || !entry.file) { showThemes(); return; }
+    if (!entry || !entry.file || (entry.soon && !preview)) { showThemes(); return; }
     // もう読みこんであるテーマは、そのまま使う
     if (window.IJFA_THEMES && window.IJFA_THEMES[key]) { done(window.IJFA_THEMES[key]); return; }
     var s = document.createElement("script");
@@ -127,13 +137,13 @@
       '<p class="sub-id" lang="id">Pilih tema</p>' +
       '</div>';
     (CONFIG.THEMES || []).forEach(function (t, i) {
-      var ready = !t.soon && t.file;
+      var ready = t.file && (!t.soon || preview);
       html += '<button type="button" class="card theme-card' + (ready ? '' : ' soon') + '"' +
         (ready ? ' data-theme="' + i + '"' : ' disabled') + '>' +
         '<span class="theme-icon" aria-hidden="true">' + esc(t.icon || "") + '</span>' +
         '<span class="theme-text"><span class="title">' + rb(t.title) + '</span>' +
         '<span class="theme-id" lang="id">' + esc(t.titleId || "") + '</span></span>' +
-        (ready ? '<span class="theme-go" aria-hidden="true">›</span>'
+        (ready ? (t.soon ? '<span class="theme-soon">かくにん{中|ちゅう}<br><small lang="id">Pratinjau</small></span>'.replace("{中|ちゅう}", "<ruby>中<rt>ちゅう</rt></ruby>") : '<span class="theme-go" aria-hidden="true">›</span>')
                : '<span class="theme-soon">じゅんびちゅう<br><small lang="id">Segera hadir</small></span>') +
         '</button>';
     });
@@ -171,7 +181,7 @@
       var best = bestScore(set.key);
       html += '<button type="button" class="card set-card" data-set="' + i + '">' +
         '<div class="title">' + rb(set.title) + '<small lang="id">' + esc(set.titleId) + '</small></div>' +
-        '<div>' + rb(set.description) + '</div>' +
+        '<div>' + rb(set.description || "") + '</div>' +
         '<div class="meta"><span>' + set.questions.length + 'もん / soal</span>' +
         (best ? '<span class="best">さいこう ' + best.score + ' / ' + best.total + '</span>' : '<span>まだ / Belum</span>') +
         '</div></button>';
@@ -192,7 +202,73 @@
   // ---------- 画面2：問題 ----------
   function startQuiz(set, questions, mode) {
     quiz = { set: set, questions: questions, mode: mode, index: 0, details: [] };
-    showQuestion();
+    // セットに「きじゅん」の画面があれば、最初に見せる
+    if (set.intro && mode === "all") showIntro();
+    else showQuestion();
+  }
+
+  // ---------- 画面1.5：セットの最初の「きじゅん」 ----------
+  function linesHtml(lines) {
+    return (lines || []).map(function (l) {
+      if (typeof l === "string") return '<p class="intro-p">' + rb(l) + '</p>';
+      if (l[0] === "h") return '<p class="intro-h">' + rb(l[1]) + '</p>';
+      if (l[0] === "li") return '<p class="intro-li">' + rb(l[1]) + '</p>';
+      return '<p class="intro-p">' + rb(l[1]) + '</p>';
+    }).join("");
+  }
+  function showIntro() {
+    var it = quiz.set.intro;
+    var html = '<div class="card intro">' +
+      '<h1 style="font-size:22px">' + rb(it.title || "") + '</h1>' +
+      linesHtml(it.lines) +
+      meaningBlock(it.textId, "intro") +
+      '</div>' +
+      '<button type="button" class="btn" id="start">はじめる<small>Mulai</small></button>' +
+      '<button type="button" class="btn ghost" id="back">もどる / Kembali</button>';
+    render(html);
+    bindMeaning();
+    document.getElementById("start").addEventListener("click", showQuestion);
+    document.getElementById("back").addEventListener("click", showTop);
+  }
+
+  // 答えのボタン（セットの形で変わる）
+  function choicesHtml(q) {
+    var set = quiz.set;
+    if (q.choices) {   // ◎○✖：文を えらぶ
+      return '<div class="gchoices">' + q.choices.map(function (c, i) {
+        return '<button type="button" class="gchoice" data-choice="' + i + '">' +
+          '<span class="gletter">' + LETTERS.charAt(i) + '</span><span class="gtext">' + rb(c.text) + '</span></button>';
+      }).join("") + '</div>';
+    }
+    if (set.options) { // 2つ・3つから えらぶ
+      return '<div class="opts opts-' + set.options.length + '">' + set.options.map(function (o) {
+        return '<button type="button" class="opt opt-' + esc(o.color || "blue") + '" data-choice="' + esc(o.key) + '">' +
+          '<span>' + (o.icon ? esc(o.icon) + " " : "") + rb(o.label) + '</span>' +
+          '<small lang="id">' + esc(o.labelId || "") + '</small></button>';
+      }).join("") + '</div>';
+    }
+    return '<div class="choices">' +
+      '<button type="button" class="choice ok" data-choice="ok">⭕ OK<small>Boleh</small></button>' +
+      '<button type="button" class="choice dame" data-choice="dame">✖ ダメ<small>Tidak boleh</small></button>' +
+      '</div>';
+  }
+  // 問題の「いみ」（◎○✖の問題は、えらぶ文のインドネシア語も出す）
+  function questionMeaning(q) {
+    if (!q.choices) return meaningBlock(q.textId, "q");
+    var html = esc(q.textId || "") + '<ul class="meaning-choices">' + q.choices.map(function (c, i) {
+      return '<li><b>' + LETTERS.charAt(i) + '.</b> ' + esc(c.textId || "") + '</li>';
+    }).join("") + '</ul>';
+    return meaningBlockHtml(html, "q");
+  }
+  function tagsHtml(q) {
+    var html = "";
+    [].concat(q.tag || []).forEach(function (t) {
+      if (t === "rule") html += '<span class="tag rule">ルールいはん / Melanggar aturan</span>';
+      if (t === "danger") html += '<span class="tag danger">あぶない / Berbahaya</span>';
+      if (t === "meiwaku") html += '<span class="tag meiwaku">めいわく / Mengganggu</span>';
+    });
+    if (q.heavy) html += '<span class="tag heavy">とても おもい / Sangat berat</span>';
+    return html;
   }
 
   function visualHtml(q, isExplain) {
@@ -212,12 +288,9 @@
       '<div class="card">' +
       '<div class="visual">' + visualHtml(q, false) + '</div>' +
       '<div class="q-text">' + rb(q.text) + '</div>' +
-      meaningBlock(q.textId, "q") +
+      questionMeaning(q) +
       '</div>' +
-      '<div class="choices">' +
-      '<button type="button" class="choice ok" data-choice="ok">⭕ OK<small>Boleh</small></button>' +
-      '<button type="button" class="choice dame" data-choice="dame">✖ ダメ<small>Tidak boleh</small></button>' +
-      '</div>';
+      choicesHtml(q);
     render(html);
     bindMeaning(function () { quiz.meaningOpened = true; });
 
@@ -229,33 +302,59 @@
   // ---------- 画面3：答えと解説 ----------
   function answer(choice) {
     var q = quiz.questions[quiz.index];
-    var correct = choice === q.answer;
-    quiz.details.push({
+    var set = quiz.set;
+    var graded = !!q.choices;
+    var pickedIndex = graded ? Number(choice) : -1;
+    var grade = graded ? q.choices[pickedIndex].grade : null;      // "best"（◎）"ok"（○）"ng"（✖）
+    var correct = graded ? grade !== "ng" : choice === q.answer;
+    var detail = {
       qid: q.id,
       question: plain(q.text),
-      choice: choice,
+      choice: graded ? LETTERS.charAt(pickedIndex) : choice,
       correct: correct,
       meaningOpened: !!quiz.meaningOpened
-    });
+    };
+    if (graded) detail.grade = grade;
+    quiz.details.push(detail);
 
-    var tagHtml = "";
-    if (q.tag === "rule") tagHtml = '<span class="tag rule">ルールいはん / Melanggar aturan</span>';
-    if (q.tag === "danger") tagHtml = '<span class="tag danger">あぶない / Berbahaya</span>';
-    if (q.heavy) tagHtml += '<span class="tag heavy">とても おもい / Sangat berat</span>';
+    // 上の大きな表示
+    var big = correct ? "せいかい！" : "ざんねん…", small = correct ? "Benar!" : "Salah";
+    if (graded && grade === "best") { big = "◎ いちばん いい！"; small = "Paling baik!"; }
+    if (graded && grade === "ok") { big = "○ これも OK"; small = "Ini juga boleh"; }
 
-    var answerLabel = q.answer === "ok" ? "⭕ OK" : "✖ ダメ";
+    // 答えの行
+    var answerHtml = "";
+    if (graded) {
+      var MARK = { best: "◎", ok: "○", ng: "✖" };
+      answerHtml = '<ul class="glist">' + q.choices.map(function (c, i) {
+        return '<li class="g-' + c.grade + (i === pickedIndex ? " picked" : "") + '">' +
+          '<span class="gmark">' + MARK[c.grade] + '</span>' +
+          '<span class="gbody"><span class="gline">' + rb(c.text) + '</span>' +
+          (c.note ? '<span class="gnote">' + rb(c.note) + '</span>' : "") +
+          (i === pickedIndex ? '<span class="gyou">あなたの こたえ / Jawaban Anda</span>' : "") +
+          '</span></li>';
+      }).join("") + '</ul>';
+    } else if (set.options) {
+      var right = null;
+      set.options.forEach(function (o) { if (o.key === q.answer) right = o; });
+      answerHtml = '<div class="answer-line">こたえ：' + (right && right.icon ? esc(right.icon) + " " : "") +
+        rb(right ? right.label : "") + '</div>';
+    } else {
+      answerHtml = '<div class="answer-line">こたえ：' + (q.answer === "ok" ? "⭕ OK" : "✖ ダメ") + tagsHtml(q) + '</div>';
+    }
+
     var items = (q.explain || []).map(function (e) {
       return '<li><span class="label">' + rb(e[0]) + '</span>' + rb(e[1]) + '</li>';
     }).join("");
 
     var last = quiz.index === quiz.questions.length - 1;
-    var html = '<div class="result-head ' + (correct ? "correct" : "wrong") + '">' +
-      '<div class="big">' + (correct ? "せいかい！" : "ざんねん…") + '</div>' +
-      '<div class="small" lang="id">' + (correct ? "Benar!" : "Salah") + '</div></div>' +
+    var html = '<div class="result-head ' + (correct ? (grade === "ok" ? "okay" : "correct") : "wrong") + '">' +
+      '<div class="big">' + big + '</div>' +
+      '<div class="small" lang="id">' + small + '</div></div>' +
       '<div class="card">' +
-      '<div class="answer-line">こたえ：' + answerLabel + tagHtml + '</div>' +
-      '<div class="q-text" style="font-size:17px;font-weight:400;margin-bottom:6px">' + rb(q.text) + '</div>' +
-      '<ul class="explain">' + items + '</ul>' +
+      (graded ? '<div class="q-text" style="font-size:17px;font-weight:400;margin-bottom:6px">' + rb(q.text) + '</div>' + answerHtml
+              : answerHtml + '<div class="q-text" style="font-size:17px;font-weight:400;margin-bottom:6px">' + rb(q.text) + '</div>') +
+      (items ? '<ul class="explain">' + items + '</ul>' : "") +
       (q.explainImage ? '<div class="explain-image">' + visualHtml(q, true) + '</div>' : "") +
       meaningBlock(q.explainId, "ex") +
       '</div>' +
@@ -303,6 +402,13 @@
       '<div class="muted" lang="id">' + msgId + '</div>' +
       '</div>';
 
+    // セットの「まとめ」
+    if (quiz.set.summary && quiz.mode === "all") {
+      html += '<div class="card intro"><div class="intro-h">まとめ / Rangkuman</div>' +
+        quiz.set.summary.lines.map(function (l) { return '<p class="intro-li">' + rb(l) + '</p>'; }).join("") +
+        meaningBlock(quiz.set.summary.textId, "sum") + '</div>';
+    }
+
     if (wrongQs.length) {
       html += '<div class="card"><div style="font-weight:700">まちがえた もんだい / Soal yang salah</div><ul class="wrong-list">' +
         wrongQs.map(function (q) { return '<li>' + rb(q.text) + '</li>'; }).join("") +
@@ -312,6 +418,7 @@
     html += '<button type="button" class="btn secondary" id="again">さいしょから<small>Ulangi dari awal</small></button>' +
       '<button type="button" class="btn ghost" id="top">もどる / Kembali</button>';
     render(html);
+    bindMeaning();
 
     if (wrongQs.length) {
       document.getElementById("retry").addEventListener("click", function () { startQuiz(quiz.set, wrongQs, "retry"); });

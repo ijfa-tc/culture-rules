@@ -16,6 +16,7 @@ IJFA学習ポータル（https://ijfa-tc.github.io/learning-portal/）からリ�
 | app.js | 画面の動き（問題→解説→結果、記録） |
 | config.js | 設定（ポータルURL、GASのURL、テーマ一覧） |
 | data_bicycle.js | テーマ「自転車のルール」の問題（きほん12問、せいかつ11問） |
+| data_dorm.js | テーマ「寮のルール」の問題（5セット・37問）。公開前で、`?theme=dorm&preview=1` を付けたときだけ開ける |
 | stop_sign.svg / moped_and_bicycle.png / moped_vs_assist.svg | 問題と解説で使う画像 |
 
 ## 問題の足し方・直し方
@@ -46,6 +47,8 @@ IJFA学習ポータル（https://ijfa-tc.github.io/learning-portal/）からリ�
 ```
 - `mode`：`all` はぜんぶの問題、`retry` は間違えた問題だけ。
 - `meaningOpened`：その問題で「いみを見る」を押したか（日本語だけで理解できたかの目安）。
+- `grade`：◎○✖の問題だけに付く。`best`（◎）`ok`（○）`ng`（✖）。◎と○は `correct: true`。
+- `choice`：OK／ダメの問題は `ok`・`dame`、えらぶ問題は選択肢のキー（`now`・`morning`・`119`・`company`）、◎○✖の問題は `A`〜`D`。
 
 ## 公開
 GitHub の ijfa-tc に Public リポジトリを作り、GitHub Pages（main ブランチ／ルート）で公開する。

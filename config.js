@@ -10,10 +10,12 @@ window.IJFA_CONFIG = {
   // ・できているテーマ：file に data_テーマ名.js を書く。
   // ・じゅんびちゅうのテーマ：soon: true と書く（押せないボタンになる）。
   //   できあがったら soon を消して、file を書く。
+  // ・file と soon: true の両方があるテーマは、生徒には「じゅんびちゅう」と見える。
+  //   URLの最後に &preview=1 を付けたときだけ開ける（公開の前に先生が確認するため）。
   // ・ふりがなは {漢字|かんじ} と書く。
   THEMES: [
     { key: "bicycle",  icon: "🚲", title: "{自転車|じてんしゃ}のルール", titleId: "Aturan Bersepeda", file: "data_bicycle.js" },
-    { key: "dorm",     icon: "🏠", title: "{寮|りょう}のルール", titleId: "Aturan Asrama", soon: true },
+    { key: "dorm",     icon: "🏠", title: "{寮|りょう}のルール", titleId: "Aturan Asrama", file: "data_dorm.js", soon: true },
     { key: "time",     icon: "⏰", title: "{時間|じかん}と {休|やす}みの れんらく", titleId: "Waktu & Izin Tidak Masuk", soon: true },
     { key: "money",    icon: "💴", title: "お{金|かね}と スマホ", titleId: "Uang & HP", soon: true },
     { key: "train",    icon: "🚃", title: "{電車|でんしゃ}・お{店|みせ}のルール", titleId: "Aturan Kereta & Toko", soon: true },

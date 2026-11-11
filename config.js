@@ -15,7 +15,7 @@ window.IJFA_CONFIG = {
   // ・ふりがなは {漢字|かんじ} と書く。
   THEMES: [
     { key: "bicycle",  icon: "🚲", title: "{自転車|じてんしゃ}のルール", titleId: "Aturan Bersepeda", file: "data_bicycle.js" },
-    { key: "dorm",     icon: "🏠", title: "{寮|りょう}のルール", titleId: "Aturan Asrama", file: "data_dorm.js", soon: true },
+    { key: "dorm",     icon: "🏠", title: "{寮|りょう}のルール", titleId: "Aturan Asrama", file: "data_dorm.js" },
     { key: "time",     icon: "⏰", title: "{時間|じかん}と {休|やす}みの れんらく", titleId: "Waktu & Izin Tidak Masuk", soon: true },
     { key: "money",    icon: "💴", title: "お{金|かね}と スマホ", titleId: "Uang & HP", soon: true },
     { key: "train",    icon: "🚃", title: "{電車|でんしゃ}・お{店|みせ}のルール", titleId: "Aturan Kereta & Toko", soon: true },

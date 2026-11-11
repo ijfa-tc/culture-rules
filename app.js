@@ -44,7 +44,7 @@
   function meaningBlock(text, key) {
     if (!text) return "";
     return '<button type="button" class="meaning-btn" data-meaning="' + key + '" aria-expanded="false">' +
-      '🇮🇩 いみを見る / Lihat arti</button>' +
+      'いみを見る / Lihat arti</button>' +
       '<div class="meaning" id="meaning-' + key + '" lang="id">' + esc(text) + "</div>";
   }
   function bindMeaning(onOpen) {
@@ -56,7 +56,7 @@
         var open = !box.classList.contains("open");
         box.classList.toggle("open", open);
         btn.setAttribute("aria-expanded", open ? "true" : "false");
-        btn.innerHTML = open ? "🇮🇩 いみを かくす / Tutup" : "🇮🇩 いみを見る / Lihat arti";
+        btn.innerHTML = open ? "いみを かくす / Tutup" : "いみを見る / Lihat arti";
         if (open && onOpen) onOpen(key);
       });
     });

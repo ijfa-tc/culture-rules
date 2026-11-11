@@ -126,6 +126,7 @@ h1 { font-size: 26px; margin: 4px 0 0; line-height: 1.5; }
 .tag.rule { background: var(--dame-bg); color: var(--dame); border: 1px solid #f2b8b5; }
 .tag.danger { background: var(--warn-bg); color: var(--warn); border: 1px solid #f0cf94; }
 .tag.heavy { background: var(--dame); color: #fff; }
+.tag.law { background: var(--dame-bg); color: var(--dame); border: 1px solid var(--dame); font-weight: bold; }
 
 .explain { margin: 0; padding: 0; list-style: none; }
 .explain li { padding: 10px 0; border-top: 1px dashed var(--line); }

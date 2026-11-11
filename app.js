@@ -263,6 +263,7 @@
   function tagsHtml(q) {
     var html = "";
     [].concat(q.tag || []).forEach(function (t) {
+      if (t === "law") html += '<span class="tag law">ほうりつ いはん / Melanggar hukum</span>';
       if (t === "rule") html += '<span class="tag rule">ルールいはん / Melanggar aturan</span>';
       if (t === "danger") html += '<span class="tag danger">あぶない / Berbahaya</span>';
       if (t === "meiwaku") html += '<span class="tag meiwaku">めいわく / Mengganggu</span>';

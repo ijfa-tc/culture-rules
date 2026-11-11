@@ -70,9 +70,9 @@ window.IJFA_THEMES.dorm = {
           explain: [
             ["なぜ？", "{日本|にほん}の アパートは かべが うすいです。{夜|よる}は {小|ちい}さい {音|おと}も よく {聞|き}こえます。"],
             ["もし…", "となりの {人|ひと}が {会社|かいしゃ}や {大家|おおや}さんに {言|い}います（くじょう）。"],
-            ["どうする？", "{夜|よる} 10{時|じ}からは、イヤホンを して、{小|ちい}さい {声|こえ}で {話|はな}します。"]
+            ["どうする？", "{夜|よる} 9{時|じ}からは、イヤホンを して、{小|ちい}さい {声|こえ}で {話|はな}します。"]
           ],
-          explainId: "Dinding apartemen di Jepang tipis, dan malam hari suara kecil pun terdengar. Tetangga bisa mengadu ke perusahaan atau pemilik rumah. Setelah pukul 10 malam, pakai earphone dan bicara pelan.",
+          explainId: "Dinding apartemen di Jepang tipis, dan malam hari suara kecil pun terdengar. Tetangga bisa mengadu ke perusahaan atau pemilik rumah. Setelah pukul 9 malam, pakai earphone dan bicara pelan.",
           teacherNote: ""
         },
         {
@@ -88,8 +88,8 @@ window.IJFA_THEMES.dorm = {
         },
         {
           id: "dorm-k06", icon: "🌙👥😂",
-          text: "{夜|よる} 10{時|じ}すぎ、へやに {友|とも}だちが 5{人|にん} {来|き}て、{話|はな}して わらいます。",
-          textId: "Lewat pukul 10 malam, 5 teman datang ke kamar, mengobrol dan tertawa.",
+          text: "{夜|よる} 9{時|じ}すぎ、へやに {友|とも}だちが 5{人|にん} {来|き}て、{話|はな}して わらいます。",
+          textId: "Lewat pukul 9 malam, 5 teman datang ke kamar, mengobrol dan tertawa.",
           answer: "dame", tag: "meiwaku",
           explain: [
             ["なぜ？", "1{人|ひとり}の {声|こえ}は {小|ちい}さくても、5{人|にん}の {声|こえ}は {大|おお}きいです。"],
@@ -459,7 +459,7 @@ window.IJFA_THEMES.dorm = {
             { text: "「すみません」と あやまって、すぐ しずかに する。", textId: "Minta maaf dan langsung tenang.", grade: "best" },
             { text: "あやまって、つぎの {日|ひ}に {会社|かいしゃ}の {人|ひと}にも「ちゅういされました」と ほうこくする。", textId: "Minta maaf, lalu besoknya melapor ke perusahaan bahwa ditegur.", grade: "best", note: "{会社|かいしゃ}は、あとで {知|し}ると こまります。" },
             { text: "あやまる。でも、10{分後|ぷんご}に また {同|おな}じ {声|こえ}で {話|はな}す。", textId: "Minta maaf tetapi 10 menit kemudian berisik lagi.", grade: "ng" },
-            { text: "「まだ 10{時|じ}ですよ」と {言|い}う。", textId: "Menjawab \"Baru jam 10\".", grade: "ng" }
+            { text: "「まだ 9{時|じ}ですよ」と {言|い}う。", textId: "Menjawab \"Baru jam 9\".", grade: "ng" }
           ],
           explainId: "Minta maaf dan langsung tenang. Lebih baik lagi jika besoknya melapor ke perusahaan, karena perusahaan akan kesulitan jika baru tahu belakangan.",
           teacherNote: ""

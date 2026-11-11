@@ -158,14 +158,14 @@ window.IJFA_THEMES.sns = {
           id: "sns-p10", icon: "🎯💰",
           text: "「SNSで『いいね』を おすだけで お{金|かね}が もらえる」しごとを はじめました。{少|すこ}し もらえた あと、「つぎの ミッションは、{先|さき}に お{金|かね}を {入|い}れて」と {言|い}われて、はらいます。",
           textId: "Anda mulai \"pekerjaan\" yang memberi uang hanya dengan menekan \"like\" di media sosial. Setelah menerima sedikit uang, Anda diminta, \"Misi berikutnya, setor uang dulu,\" lalu Anda membayar.",
-          answer: "dame", tag: ["danger", "law"],
+          answer: "dame", tag: "law",
           explain: [
             ["なぜ？", "これは にせの ふくぎょうです。{先|さき}に はらった お{金|かね}は、もどって きません。"],
             ["ポイント", "はじめに {少|すこ}し もらえても、あんしんでは ありません。"],
             ["ポイント", "それに、あなたは {日本|にほん}で ふくぎょうが できません。"]
           ],
           explainId: "Ini pekerjaan sampingan palsu. Uang yang dibayar duluan tidak akan kembali. Walaupun awalnya menerima sedikit uang, itu tidak berarti aman. Selain itu, Anda tidak boleh bekerja sampingan di Jepang.",
-          teacherNote: "Polri公式サイト（2026年4月24日）：Telegramを使う偽副業（misi berbayar／deposit）。OJKも偽求人（lowongan kerja paruh waktu）の注意喚起。インドネシア語では misi berbayar・deposit・reward・sambil rebahan などの言葉が使われる。「law」の印は、技能実習・特定技能では副業ができないため。"
+          teacherNote: "Polri公式サイト（2026年4月24日）：Telegramを使う偽副業（misi berbayar／deposit）。OJKも偽求人（lowongan kerja paruh waktu）の注意喚起。インドネシア語では misi berbayar・deposit・reward・sambil rebahan などの言葉が使われる。「ほうりつ いはん」の印にした（技能実習・特定技能では副業ができないため。2026-11-11 坂井さん決定）。"
         }
       ]
     },

@@ -16,7 +16,8 @@ IJFA学習ポータル（https://ijfa-tc.github.io/learning-portal/）からリ�
 | app.js | 画面の動き（問題→解説→結果、記録） |
 | config.js | 設定（ポータルURL、GASのURL、テーマ一覧） |
 | data_bicycle.js | テーマ「自転車のルール」の問題（きほん12問、せいかつ11問） |
-| data_dorm.js | テーマ「寮のルール」の問題（5セット・37問）。公開前で、`?theme=dorm&preview=1` を付けたときだけ開ける |
+| data_dorm.js | テーマ「寮のルール」の問題（5セット・37問） |
+| data_time.js | テーマ「時間と休みの連絡」の問題（3セット・25問） |
 | stop_sign.svg / moped_and_bicycle.png / moped_vs_assist.svg | 問題と解説で使う画像 |
 
 ## 問題の足し方・直し方

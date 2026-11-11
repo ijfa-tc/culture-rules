@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 220" font-family="Noto Sans CJK JP, Noto Sans JP, sans-serif">
+  <polygon points="10,10 230,10 120,206" fill="#ffffff" stroke="#ffffff" stroke-width="6" stroke-linejoin="round"/>
+  <polygon points="22,18 218,18 120,192" fill="#d7262b" stroke="#d7262b" stroke-width="10" stroke-linejoin="round"/>
+  <text x="120" y="88" text-anchor="middle" font-size="44" font-weight="700" fill="#ffffff">止まれ</text>
+</svg>

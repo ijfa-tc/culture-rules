@@ -13,7 +13,7 @@
   var params = new URLSearchParams(location.search);
   var rawId = (params.get("id") || "").trim().toUpperCase();
   var studentId = ID_PATTERN.test(rawId) ? rawId : "";
-  var themeKey = params.get("theme") || CONFIG.DEFAULT_THEME;
+  var themeKey = params.get("theme") || "";
 
   var app = document.getElementById("app");
   var studentEl = document.getElementById("student");
@@ -102,7 +102,9 @@
     var themes = CONFIG.THEMES || [];
     var entry = null;
     for (var i = 0; i < themes.length; i++) if (themes[i].key === key) entry = themes[i];
-    if (!entry) { showError("テーマが見つかりません / Tema tidak ditemukan: " + key); return; }
+    if (!entry || entry.soon || !entry.file) { showThemes(); return; }
+    // もう読みこんであるテーマは、そのまま使う
+    if (window.IJFA_THEMES && window.IJFA_THEMES[key]) { done(window.IJFA_THEMES[key]); return; }
     var s = document.createElement("script");
     s.src = entry.file;
     s.onload = function () {
@@ -115,6 +117,42 @@
   }
   function showError(msg) {
     render('<div class="card"><p>' + esc(msg) + '</p></div>');
+  }
+
+  // ---------- 画面0：テーマをえらぶ ----------
+  function showThemes() {
+    document.title = "日本の文化・ルール | IJFA";
+    var html = '<div class="card">' +
+      '<h1>' + rb("テーマを えらぶ") + '</h1>' +
+      '<p class="sub-id" lang="id">Pilih tema</p>' +
+      '</div>';
+    (CONFIG.THEMES || []).forEach(function (t, i) {
+      var ready = !t.soon && t.file;
+      html += '<button type="button" class="card theme-card' + (ready ? '' : ' soon') + '"' +
+        (ready ? ' data-theme="' + i + '"' : ' disabled') + '>' +
+        '<span class="theme-icon" aria-hidden="true">' + esc(t.icon || "") + '</span>' +
+        '<span class="theme-text"><span class="title">' + rb(t.title) + '</span>' +
+        '<span class="theme-id" lang="id">' + esc(t.titleId || "") + '</span></span>' +
+        (ready ? '<span class="theme-go" aria-hidden="true">›</span>'
+               : '<span class="theme-soon">じゅんびちゅう<br><small lang="id">Segera hadir</small></span>') +
+        '</button>';
+    });
+    html += '<div class="footer-links"><a href="' + esc(linkWithId(CONFIG.PORTAL_URL)) + '">← ポータルへ / Ke portal</a></div>';
+    render(html);
+    Array.prototype.forEach.call(app.querySelectorAll("[data-theme]"), function (btn) {
+      btn.addEventListener("click", function () {
+        openTheme(CONFIG.THEMES[Number(btn.getAttribute("data-theme"))].key);
+      });
+    });
+  }
+
+  function openTheme(key) {
+    themeKey = key;
+    loadTheme(key, function (data) {
+      theme = data;
+      document.title = plain(theme.title) + " | 日本の文化・ルール | IJFA";
+      showTop();
+    });
   }
 
   // ---------- 画面1：テーマのトップ（セットをえらぶ） ----------
@@ -139,9 +177,10 @@
         '</div></button>';
     });
 
-    html += '<div class="footer-links"><a href="' + esc(linkWithId(CONFIG.PORTAL_URL)) + '">← ポータルへ / Ke portal</a></div>';
+    html += '<button type="button" class="btn ghost" id="themes">← テーマを えらぶ / Pilih tema</button>';
     render(html);
     bindMeaning();
+    document.getElementById("themes").addEventListener("click", showThemes);
     Array.prototype.forEach.call(app.querySelectorAll("[data-set]"), function (btn) {
       btn.addEventListener("click", function () {
         var set = theme.sets[Number(btn.getAttribute("data-set"))];
@@ -282,9 +321,7 @@
   }
 
   // ---------- スタート ----------
-  loadTheme(themeKey, function (data) {
-    theme = data;
-    document.title = plain(theme.title) + " | 日本の文化・ルール | IJFA";
-    showTop();
-  });
+  // ?theme= があればそのテーマを開く。なければテーマをえらぶ画面。
+  if (themeKey) openTheme(themeKey);
+  else showThemes();
 })();

@@ -6,7 +6,7 @@ IJFA学習ポータル（https://ijfa-tc.github.io/learning-portal/）からリ�
 ## 開き方
 - `index.html?id=JKT16001` … 生徒IDつき（結果にIDが残る）
 - `index.html` … ゲストとして使う
-- `index.html?theme=bicycle&id=JKT16001` … テーマを指定する（テーマを省くと config.js の DEFAULT_THEME が開く）
+- `index.html?theme=bicycle&id=JKT16001` … テーマを指定する（テーマを省くと「テーマを えらぶ」画面が開く）
 
 ## ファイル
 | ファイル | 役割 |
@@ -21,7 +21,7 @@ IJFA学習ポータル（https://ijfa-tc.github.io/learning-portal/）からリ�
 ## 問題の足し方・直し方
 1. `data_bicycle.js` を開き、同じ形の `{ ... }` をコピーして中身を書きかえる。
 2. `id` は重ならないようにする（例：bike-b13）。
-3. 新しいテーマを作るときは、`data_テーマ名.js` を作り、`config.js` の THEMES に1行足す。
+3. 新しいテーマを作るときは、`data_テーマ名.js` を作り、`config.js` の THEMES のその行から `soon: true` を消して `file` を書く。
 
 ## 結果の記録
 セットを最後まで解くと、次の形で1件記録します。今はスマホの中（localStorage の `ijfa_culture_results`）に保存しています。

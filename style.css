@@ -143,3 +143,20 @@ h1 { font-size: 26px; margin: 4px 0 0; line-height: 1.5; }
 
 .footer-links { text-align: center; margin-top: 8px; }
 .footer-links a { color: var(--sub); font-size: 14px; }
+
+/* ---- theme list ---- */
+.theme-card {
+  display: flex; align-items: center; gap: 14px; width: 100%;
+  text-align: left; font: inherit; color: inherit; cursor: pointer; padding: 14px 16px;
+}
+.theme-icon { font-size: 34px; line-height: 1; width: 44px; text-align: center; flex: none; }
+.theme-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.theme-text .title { font-size: 18px; font-weight: 700; line-height: 1.9; }
+.theme-id { font-size: 14px; color: var(--sub); }
+.theme-go { font-size: 30px; color: var(--brand); flex: none; }
+.theme-soon {
+  flex: none; text-align: center; font-size: 13px; line-height: 1.3; color: var(--sub);
+  background: #eeeae2; border-radius: 10px; padding: 6px 10px;
+}
+.theme-card.soon { cursor: default; background: #faf8f4; }
+.theme-card.soon .theme-icon, .theme-card.soon .theme-text { opacity: .5; }

@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-11-11
+- トップに「テーマを えらぶ」画面を追加した。自転車のルール以外の10テーマは「じゅんびちゅう」として表示する（config.js の THEMES で管理）。
 - GitHub（ijfa-tc/culture-rules）に公開した。https://ijfa-tc.github.io/culture-rules/
 - 「いみを見る」ボタンの国旗の絵文字を外した（Windowsでは「ID」という文字で表示されるため）。
 - 自転車編の全問題にイラストを入れた（絵文字から差し替え。1枚あたり約60〜110KB）。

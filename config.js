@@ -18,7 +18,7 @@ window.IJFA_CONFIG = {
     { key: "dorm",     icon: "🏠", title: "{寮|りょう}のルール", titleId: "Aturan Asrama", file: "data_dorm.js" },
     { key: "time",     icon: "⏰", title: "{時間|じかん}と {休|やす}みの れんらく", titleId: "Waktu & Izin Tidak Masuk", file: "data_time.js" },
     { key: "money",    icon: "💴", title: "お{金|かね}", titleId: "Uang", file: "data_money.js" },
-    { key: "sns",      icon: "📱", title: "スマホ・SNS", titleId: "HP & Media Sosial", file: "data_sns.js", soon: true },
+    { key: "sns",      icon: "📱", title: "スマホ・SNS", titleId: "HP & Media Sosial", file: "data_sns.js" },
     { key: "train",    icon: "🚃", title: "{電車|でんしゃ}・お{店|みせ}のルール", titleId: "Aturan Kereta & Toko", soon: true },
     { key: "garbage",  icon: "🗑️", title: "ゴミの {分|わ}け{方|かた}", titleId: "Cara Memilah Sampah", soon: true },
     { key: "safety",   icon: "⛑️", title: "{仕事|しごと}の あんぜん", titleId: "Keselamatan Kerja", soon: true },

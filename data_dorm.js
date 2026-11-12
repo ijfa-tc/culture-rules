@@ -118,9 +118,10 @@ window.IJFA_THEMES.dorm = {
           answer: "dame", tag: "rule",
           explain: [
             ["なぜ？", "{油|あぶら}は パイプの {中|なか}で かたまります。{水|みず}が ながれなく なって、{水|みず}もれの げんいんに なります。"],
-            ["どうする？", "{紙|かみ}に すわせて、もえる ゴミに {出|だ}します。"]
+            ["どうする？", "{油|あぶら}が あたたかい うちに、「{固|かた}めるテンプル」など {油|あぶら}を かためる ものを {入|い}れます。かたまったら、もえる ゴミに {出|だ}します。"],
+            ["ポイント", "「{固|かた}めるテンプル」は、スーパーや ドラッグストアで {買|か}えます。{少|すこ}しの {油|あぶら}は、{紙|かみ}に すわせて すてても いいです。"]
           ],
-          explainId: "Minyak mengeras di dalam pipa, air tersumbat dan bisa bocor. Serap minyak dengan kertas lalu buang sebagai sampah yang bisa dibakar.",
+          explainId: "Minyak mengeras di dalam pipa, air tersumbat dan bisa bocor. Saat minyak masih hangat, masukkan bahan pengental minyak seperti \"Katameru Tenpuru\". Setelah mengeras, buang sebagai sampah yang bisa dibakar. Produk ini bisa dibeli di supermarket atau toko obat (drugstore). Minyak yang sedikit boleh diserap dengan kertas lalu dibuang.",
           teacherNote: "油の捨て方は自治体で違う場合がある。駐在記録に漏水の例がある。"
         },
         {
